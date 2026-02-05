@@ -17,6 +17,7 @@ import {
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,7 +43,7 @@ export default function Home() {
                     stagger: 0.15,
                     ease: "power2.out",
                     delay: 0.2,
-                }
+                },
             );
         }
 
@@ -65,7 +66,7 @@ export default function Home() {
                         trigger: featuresRef.current,
                         start: "top 75%",
                     },
-                }
+                },
             );
         }
 
@@ -75,7 +76,9 @@ export default function Home() {
             statNumbers.forEach((stat) => {
                 const target = stat.getAttribute("data-target");
                 if (target) {
-                    const numericValue = parseFloat(target.replace(/[^0-9.]/g, ""));
+                    const numericValue = parseFloat(
+                        target.replace(/[^0-9.]/g, ""),
+                    );
                     const suffix = target.replace(/[0-9.]/g, "");
 
                     ScrollTrigger.create({
@@ -89,7 +92,10 @@ export default function Home() {
                                 snap: { textContent: 1 },
                                 onUpdate: function () {
                                     const currentValue = Math.ceil(
-                                        parseFloat((this.targets()[0] as any).textContent)
+                                        parseFloat(
+                                            (this.targets()[0] as any)
+                                                .textContent,
+                                        ),
                                     );
                                     stat.textContent = currentValue + suffix;
                                 },
@@ -119,13 +125,47 @@ export default function Home() {
                         trigger: exclusiveRef.current,
                         start: "top 75%",
                     },
-                }
+                },
             );
         }
     }, []);
 
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: "PlayFiver",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "BRL",
+        },
+        aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.8",
+            ratingCount: "150",
+        },
+        description:
+            "A plataforma mais completa para distribuir jogos de cassino. Integração rápida, suporte 24/7 e os melhores provedores do mercado.",
+        features: [
+            "6000+ Jogos Disponíveis",
+            "50+ Provedores Premium",
+            "Controle Total de RTP",
+            "GGR de 3% a 15%",
+            "Suporte 24/7",
+            "Integração Rápida via API",
+        ],
+    };
+
     return (
         <main>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(structuredData),
+                }}
+            />
             <header className="fixed top-0 left-0 py-2 px-4 border-b bg-background/50 backdrop-blur-sm w-full z-50">
                 <div className="flex items-center gap-2">
                     <Image
@@ -146,8 +186,19 @@ export default function Home() {
                         provedores do mercado.
                     </p>
                     <div className="flex flex-wrap gap-4">
-                        <Button>Testar Gratuitamente</Button>
-                        <Button variant="outline">Ver Documentação</Button>
+                        <Button asChild>
+                            <Link href="https://www.playfiver.app/login">
+                                Acessar o Painel
+                            </Link>
+                        </Button>
+                        <Button variant="outline">
+                            <Link
+                                target="_blank"
+                                href="https://api.playfivers.com/docs/api"
+                            >
+                                Ver Documentação
+                            </Link>
+                        </Button>
                     </div>
                 </div>
 
@@ -463,8 +514,10 @@ export default function Home() {
                         cassino online
                     </p>
                     <div className="flex flex-wrap gap-4 justify-center">
-                        <Button size="lg" className="text-lg px-8">
-                            Acessar o Painel
+                        <Button size="lg" asChild>
+                            <Link href="https://www.playfiver.app/login">
+                                Acessar o Painel
+                            </Link>
                         </Button>
                         <Button
                             size="lg"
@@ -499,83 +552,11 @@ export default function Home() {
                         </p>
                     </div>
 
-                    <div>
-                        <h4 className="font-bold mb-4">Produto</h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li>
-                                <a href="#" className="">
-                                    Recursos
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="">
-                                    Provedores
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="">
-                                    Preços
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="">
-                                    Demo
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div></div>
 
-                    <div>
-                        <h4 className="font-bold mb-4">Desenvolvedores</h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li>
-                                <a href="#" className="">
-                                    Documentação
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="">
-                                    API Reference
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="">
-                                    Webhooks
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="">
-                                    Status
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div></div>
 
-                    <div>
-                        <h4 className="font-bold mb-4">Empresa</h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li>
-                                <a href="#" className="">
-                                    Sobre
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="">
-                                    Blog
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="">
-                                    Contato
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="">
-                                    Termos
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div></div>
                 </div>
 
                 <div className="pt-8 border-t text-center text-sm text-muted-foreground">

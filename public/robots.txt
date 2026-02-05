@@ -1,0 +1,6 @@
+# robots.txt for PlayFiver
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://www.playfiver.app/sitemap.xml
